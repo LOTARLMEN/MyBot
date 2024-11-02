@@ -113,14 +113,11 @@ async def send_calories(message, state):
 
 @dp.message_handler(text="Купить")
 async def get_buying_list(message):
-    for i in range(1, 4):
+    for i in range(1, 5):
         with open(f'../photos/protein{i}.jpg', 'rb') as img:
             await message.answer(f'Название: Product{i} | Описание: описание {i} | Цена: {i * 100}')
             await message.answer_photo(img)
-    with open(f'../photos/protein4.jpg', 'rb') as img:
-        await message.answer(f'Название: Product{4} | Описание: описание {4} | Цена: {4 * 100}')
-        await message.answer_photo(img)
-        await message.answer("Выберите продукт для покупки:", reply_markup=ikb2)
+    await message.answer("Выберите продукт для покупки:", reply_markup=ikb2)
 
 
 @dp.callback_query_handler(text="product_buying")
