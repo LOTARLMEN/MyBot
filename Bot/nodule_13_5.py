@@ -1,14 +1,23 @@
+import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from my_api import ONLY_MY_API
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from dotenv import load_dotenv
 
-kb = ReplyKeyboardMarkup(resize_keyboard=True)
-button = KeyboardButton("Рассчитать калории")
-button2 = KeyboardButton("Информация")
-kb.add(button)
-kb.add(button2)
+load_dotenv()
+ONLY_MY_API = os.getenv("ONLY_MY_API")
+
+kb = ReplyKeyboardMarkup([[KeyboardButton("Рассчитать калории"),
+                           KeyboardButton("Информация")]]
+                         , resize_keyboard=True)
+
+
+# button = KeyboardButton("Рассчитать калории")
+# button2 = KeyboardButton("Информация")
+# kb.add(button)
+# kb.add(button2)
 
 
 class UserState(StatesGroup):
@@ -21,9 +30,11 @@ api = ONLY_MY_API
 bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
+
 @dp.message_handler(commands="start")
 async def start(message: types.Message):
     await message.answer('Привет, я бот помогающий твоему здоровью!', reply_markup=kb)
+
 
 @dp.message_handler(text="Информация")
 async def send_info(message):
@@ -32,7 +43,8 @@ async def send_info(message):
                          " чтобы поддерживать свой вес."
                          " Для этого введите ваш возраст, рост и вес.")
 
-@dp.message_handler(text="Рассчитать")
+
+@dp.message_handler(text="Рассчитать калории")
 async def set_age(message):
     await message.answer("Введите ваш возраст:")
     await UserState.age.set()

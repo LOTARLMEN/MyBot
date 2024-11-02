@@ -4,9 +4,9 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import dotenv
+from dotenv import load_dotenv
 
-dotenv.load_dotenv()
+load_dotenv()
 ONLY_MY_API = os.getenv("ONLY_MY_API")
 
 kb = ReplyKeyboardMarkup([[KeyboardButton("Рассчитать калории"),
